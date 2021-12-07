@@ -9,7 +9,7 @@ class Matriz {
 
     private final int lin;
     private final int col;
-    private double [][] m;
+    public double [][] m;
 
     // metodo estatico que cria uma matriz identidade de tamanho matrixDimension x matrixDimension.
     public static Matriz identidade(int matrixDimension) {
@@ -142,9 +142,9 @@ class Matriz {
         boolean nullLine = false;
         double determinante = 1;
 
-        System.out.println("Antes: ");
-        imprime(agregada);
-        System.out.println();
+//        System.out.println("Antes: ");
+//        imprime(agregada);
+//        System.out.println();
 
         while(currentLine < this.lin){
 
@@ -173,12 +173,12 @@ class Matriz {
             nullLine = false;
         }
 
-        System.out.println("Depois: ");
-        imprime(agregada);
-        System.out.println();
-
-        System.out.println("Determinante: ");
-        System.out.println(determinante);
+//        System.out.println("Depois: ");
+//        imprime(agregada);
+//        System.out.println();
+//
+//        System.out.println("Determinante: ");
+//        System.out.println(determinante);
 
         return determinante;
     }

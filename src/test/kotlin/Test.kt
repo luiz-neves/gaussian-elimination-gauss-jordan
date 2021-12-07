@@ -8,22 +8,57 @@ import java.io.InputStream
 import java.io.PrintStream
 
 class Test : FreeSpec() {
-    private val newSystemOutContent: ByteArrayOutputStream = ByteArrayOutputStream()
+    private lateinit var newSystemOutContent: ByteArrayOutputStream
     private val originalSystemOutContent: PrintStream = System.out
     private val originalSystemIn: InputStream = System.`in`
 
-    override fun beforeTest(testCase: TestCase) {
+    override fun beforeEach(testCase: TestCase) {
+        newSystemOutContent = ByteArrayOutputStream()
         System.setOut(PrintStream(newSystemOutContent))
     }
 
-    override fun afterTest(testCase: TestCase, result: TestResult) {
+    override fun afterEach(testCase: TestCase, result: TestResult) {
         System.setOut(originalSystemOutContent)
         System.setIn(originalSystemIn)
     }
 
     init {
-        "Test case 1A" {
-            runTestCase("1A")
+        "Operation 'determinante'" - {
+            "Test case 1A" {
+                runTestCase("1A")
+            }
+
+            "Test case 1F" {
+                runTestCase("1F")
+            }
+
+            "Test case 2H" {
+                runTestCase("2H")
+            }
+
+            "Test case 2I" {
+                runTestCase("2I")
+            }
+
+            "Test case 2J" {
+                runTestCase("2J")
+            }
+
+            "Test case 3B" {
+                runTestCase("3B")
+            }
+
+            "Test case 3C" {
+                runTestCase("3C")
+            }
+
+            "Test case 3D" {
+                runTestCase("3D")
+            }
+
+            "Test case 3E" {
+                runTestCase("3E")
+            }
         }
 
         "Test case 1B" {
@@ -40,10 +75,6 @@ class Test : FreeSpec() {
 
         "Test case 1E" {
             runTestCase("1E")
-        }
-
-        "Test case 1F" {
-            runTestCase("1F")
         }
 
         "Test case 1G" {
@@ -78,40 +109,12 @@ class Test : FreeSpec() {
             runTestCase("2G")
         }
 
-        "Test case 2H" {
-            runTestCase("2H")
-        }
-
-        "Test case 2I" {
-            runTestCase("2I")
-        }
-
-        "Test case 2J" {
-            runTestCase("2J")
-        }
-
         "Test case 2K" {
             runTestCase("2K")
         }
 
         "Test case 3A" {
             runTestCase("3A")
-        }
-
-        "Test case 3B" {
-            runTestCase("3B")
-        }
-
-        "Test case 3C" {
-            runTestCase("3C")
-        }
-
-        "Test case 3D" {
-            runTestCase("3D")
-        }
-
-        "Test case 3E" {
-            runTestCase("3E")
         }
 
         "Test case 3F" {
