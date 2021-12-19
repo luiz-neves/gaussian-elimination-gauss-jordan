@@ -114,7 +114,7 @@ class Matriz {
         for (int i = initialLine; i < lin; i++) {
             int j;
             for (j = 0; j < col; j++) {
-                if (Math.abs(m[i][j]) > 0) {
+                if (Math.abs(m[i][j]) > SMALL) {
                     break;
                 }
             }
@@ -139,21 +139,22 @@ class Matriz {
         int pivoColunm = pivoArgs[1];
         double pivo = m[pivoLine][pivoColunm];
         int currentLine = 0;
-        boolean nullLine = false;
         double determinante = 1;
+        boolean nullLine = false;
+        boolean anyNullLine = false;
 
-//        System.out.println("Antes: ");
-//        imprime(agregada);
-//        System.out.println();
+        // System.out.println("Antes: ");
+        // imprime(agregada);
+        // System.out.println();
+
+        reposicionaLinhasNulas(currentLine);
 
         while(currentLine < this.lin){
 
             for(int i = currentLine + 1; i < this.lin; i++){
-                if(currentLine + 1 < this.lin){
-                    double constant = m[i][pivoColunm]/pivo;
-                    combinaLinhas(i, currentLine, -constant);
-                    agregada.combinaLinhas(i, currentLine, -constant);
-                }
+                double constant = m[i][pivoColunm]/pivo;
+                combinaLinhas(i, currentLine, -constant);
+                agregada.combinaLinhas(i, currentLine, -constant);
             }
 
             multiplicaLinha(currentLine, 1.0/pivo);
@@ -163,7 +164,7 @@ class Matriz {
             currentLine = currentLine + 1;
 
             if(currentLine >= this.lin) break;
-            nullLine = validaLinhasNulas(currentLine, true);
+            nullLine = validaLinhaNula(currentLine, true);
             if(nullLine) break;
 
             pivoArgs = encontraLinhaPivo(currentLine);
@@ -173,24 +174,66 @@ class Matriz {
             nullLine = false;
         }
 
-//        System.out.println("Depois: ");
-//        imprime(agregada);
-//        System.out.println();
-//
-//        System.out.println("Determinante: ");
-//        System.out.println(determinante);
+        // System.out.println("Depois: ");
+        // imprime(agregada);
+        // System.out.println();
+
+        anyNullLine = exiteLinhaNula();
+        if(anyNullLine) determinante = 0;
+
+        // System.out.println("Determinante: ");
+        // System.out.println(determinante);    
 
         return determinante;
     }
 
-    private boolean validaLinhasNulas(int linha, boolean nullLine){
+    // metodo que valida se a linha atual é uma linha nula
+    private boolean validaLinhaNula(int linha, boolean nullLine){
         for(int j = 0; j < this.col; j++){
-            if(m[linha][j] != 0.0){
+            if(m[linha][j] > SMALL || m[linha][j] < -SMALL){
                 nullLine = false;
                 break;
             }
         }
         return nullLine;
+    }
+
+    // metodo que valida se há alguma linha nula na matriz
+    private boolean exiteLinhaNula(){
+        boolean anyNullLine = false;
+
+        for(int i = 0; i < this.lin; i++){
+            boolean nullLine = validaLinhaNula(i, true);
+            if(nullLine){
+                anyNullLine = true;
+                break;
+            }
+        }
+        return anyNullLine;
+    }
+
+    // metodo que reposiciona todas as linhas nulas para as últimas posições da matriz
+    private void reposicionaLinhasNulas(int currentLine){
+        boolean iteratorLineIsNull;
+        boolean currentLineIsNull;
+
+        for(int i = currentLine + 1; i < this.lin; i++){
+            iteratorLineIsNull = validaLinhaNula(i, true);
+            currentLineIsNull = validaLinhaNula(currentLine, true);
+            if(iteratorLineIsNull) {
+                currentLine = currentLine + 1;
+                iteratorLineIsNull = false;
+                currentLineIsNull = false;
+                continue;
+            }
+            if(!currentLineIsNull) {
+                currentLine = currentLine + 1;
+                iteratorLineIsNull = false;
+                currentLineIsNull = false;
+                continue;
+            }
+            trocaLinha(currentLine, i);
+        }
     }
 
     // metodo que implementa a eliminacao de Gauss-Jordan, que coloca a matriz (que chama o metodo)
