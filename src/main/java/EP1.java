@@ -20,9 +20,11 @@ public class EP1 {
 
         if (operation.equals("resolve")){
             MatrixPair matrixPair = getMatrixAndAggregateMatrix(in, matrixDimension);
+
             Matriz matrix = matrixPair.getMatrix();
             Matriz aggregateMatrix = matrixPair.getAggregateMatrix();
-            matrix.formaEscalonadaReduzida(aggregateMatrix);
+
+            matrix.printSolution(aggregateMatrix, matrixDimension);
         } else if (operation.equals("inverte")){
 
         } else if( operation.equals("determinante")){

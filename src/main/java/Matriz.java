@@ -151,10 +151,6 @@ class Matriz {
         boolean nullLine = false;
         boolean anyNullLine = false;
 
-        // System.out.println("Antes: ");
-        // imprime(agregada);
-        // System.out.println();
-
         reposicionaLinhasNulas(currentLine);
 
         while(currentLine < this.lin){
@@ -182,15 +178,8 @@ class Matriz {
             nullLine = false;
         }
 
-        // System.out.println("Depois: ");
-        // imprime(agregada);
-        // System.out.println();
-
         anyNullLine = exiteLinhaNula();
         if(anyNullLine) determinante = 0;
-
-        // System.out.println("Determinante: ");
-        // System.out.println(determinante);    
 
         return determinante;
     }
@@ -250,30 +239,46 @@ class Matriz {
     // a matriz que invoca esta metodo eh uma matriz quadrada. Não se pode assumir, contudo, que esta
     // matriz ja esteja na forma escalonada (mas voce pode usar o metodo acima para isso).
     public void formaEscalonadaReduzida(Matriz agregada){
-        int n = lin;
-        for (int k = 0; k < n; k++) {
+        for (int k = 0; k < lin; k++) {
             if (Math.abs(m[k][k]) < SMALL) {
-                for (int i = k + 1; i < n; i++) {
-                    if (Math.abs(m[i][k]) > Math.abs(m[k][k])) {
-                        trocaLinha(k, i);
-                        agregada.trocaLinha(k, i);
-                    }
-                }
+                partialPivoting(agregada, k);
             }
+
             double pivot = m[k][k];
             multiplicaLinha(k, 1 / pivot);
             agregada.multiplicaLinha(k, 1 / pivot);
 
-            for (int i = 0; i < n; i++) {
-                if (i == k || m[i][k] == 0) continue;
-
-                double factor = m[i][k];
-                for (int j = k; j < n; j++) {
-                    m[i][j] -= factor * m[k][j];
-                }
-                agregada.m[i][0] -= factor * agregada.m[k][0];
-            }
+            elimination(agregada,k);
         }
+    }
+
+    private void partialPivoting(Matriz agregada, int k) {
+        int i = k + 1;
+        while (i < lin) {
+            if (Math.abs(m[i][k]) > Math.abs(m[k][k])) {
+                trocaLinha(k, i);
+                agregada.trocaLinha(k, i);
+            }
+            i++;
+        }
+    }
+
+    private void elimination(Matriz agregada, int k) {
+        for (int i = 0; i < lin; i++) {
+            if (i == k || m[i][k] == 0) continue;
+
+            double factor = m[i][k];
+            int j = k;
+            while (j < lin) {
+                m[i][j] -= factor * m[k][j];
+                j++;
+            }
+            agregada.m[i][0] -= factor * agregada.m[k][0];
+        }
+    }
+
+    public void printSolution(Matriz agregada, int n) {
+        formaEscalonadaReduzida(agregada);
 
         StringBuilder solution = new StringBuilder();
         for (int i = 0; i < n; i++) {
@@ -285,7 +290,7 @@ class Matriz {
 
             for (int j = 0; j < n; j++) {
                 double x = m[i][j];
-                if (!isEqual(x, 1) && !isEqual(x, 0)) {
+                if (isNotEqual(x, 1) && isNotEqual(x, 0)) {
                     solution = null;
                     break;
                 }
@@ -305,11 +310,11 @@ class Matriz {
         }
     }
 
-    private boolean isEqual(double a, double b) {
+    private boolean isNotEqual(double a, double b) {
         if (a > b) {
-            return a - b < SMALL;
+            return !(a - b < SMALL);
         } else {
-            return b - a < SMALL;
+            return !(b - a < SMALL);
         }
     }
 }
