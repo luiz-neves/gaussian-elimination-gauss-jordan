@@ -245,9 +245,11 @@ class Matriz {
             }
 
             double pivot = m[k][k];
-            multiplicaLinha(k, 1 / pivot);
-            if (agregada != null) {
-                agregada.multiplicaLinha(k, 1 / pivot);
+            if (isNotEqual(pivot, 0)) {
+                multiplicaLinha(k, 1 / pivot);
+                if (agregada != null) {
+                    agregada.multiplicaLinha(k, 1 / pivot);
+                }
             }
 
             elimination(agregada, k);
@@ -297,33 +299,27 @@ class Matriz {
         formaEscalonadaReduzida(agregada);
 
         StringBuilder solution = new StringBuilder();
-        for (int i = 0; i < n; i++) {
-            double v = agregada.m[i][0];
-            if (Double.isNaN(v) || Double.isInfinite(v)) {
-                solution = null;
-                break;
-            }
-
-            for (int j = 0; j < n; j++) {
-                double x = m[i][j];
-                if (isNotEqual(x, 1) && isNotEqual(x, 0)) {
-                    solution = null;
-                    break;
+        if (exiteLinhaNula()) {
+            for (int i = 0; i < lin; i++) {
+                if (validaLinhaNula(i, true)) {
+                    if (isNotEqual(agregada.m[i][0], 0)) {
+                        solution.append("sistema sem solução");
+                    } else {
+                        solution.append("sistema possui diversas soluções");
+                    }
                 }
             }
+        } else {
+            for (int i = 0; i < n; i++) {
+                double v = agregada.m[i][0];
 
-            if (solution == null) {
-                break;
+                Formatter formatter = new Formatter(Locale.ROOT);
+                formatter.format("%7.2f", v);
+                solution.append(formatter.toString().trim()).append("\n");
             }
-
-            Formatter formatter = new Formatter(Locale.ROOT);
-            formatter.format("%7.2f", v);
-            solution.append(formatter.toString().trim()).append("\n");
         }
 
-        if (solution != null) {
-            System.out.printf(Locale.ROOT, solution.toString());
-        }
+        System.out.printf(Locale.ROOT, solution.toString());
     }
 
     private boolean isNotEqual(double a, double b) {
