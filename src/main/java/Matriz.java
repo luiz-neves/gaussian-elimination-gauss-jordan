@@ -47,7 +47,7 @@ class Matriz {
     public void imprime() {
         for (int i = 0; i < lin; i++) {
             for (int j = 0; j < col; j++) {
-                System.out.printf(Locale.ROOT, "%7.2f ", m[i][j]);
+                System.out.printf(Locale.ROOT, "%7.2f\t", m[i][j]);
             }
             System.out.println();
         }
@@ -252,6 +252,11 @@ class Matriz {
 
             elimination(agregada, k);
         }
+
+        roundNumbersToZero();
+        if (agregada != null) {
+            agregada.roundNumbersToZero();
+        }
     }
 
     private void partialPivoting(Matriz agregada, int k) {
@@ -326,6 +331,16 @@ class Matriz {
             return !(a - b < SMALL);
         } else {
             return !(b - a < SMALL);
+        }
+    }
+
+    public void roundNumbersToZero() {
+        for (int i = 0; i < lin; i++) {
+            for (int j = 0; j < col; j++) {
+                if (Math.abs(m[i][j]) < SMALL) {
+                    m[i][j] = 0;
+                }
+            }
         }
     }
 }

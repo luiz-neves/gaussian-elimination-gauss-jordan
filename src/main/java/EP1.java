@@ -26,7 +26,17 @@ public class EP1 {
 
             matrix.printSolution(aggregateMatrix, matrixDimension);
         } else if (operation.equals("inverte")){
+            Matriz matrix = getMatrix(in, matrixDimension);
 
+            if (isSingular(matrix, matrixDimension)) {
+                System.out.println("matriz singular");
+            } else {
+                Matriz identity = Matriz.identidade(matrixDimension);
+
+                matrix.formaEscalonadaReduzida(identity);
+
+                identity.imprime();
+            }
         } else if( operation.equals("determinante")){
             Matriz matrix = getMatrix(in, matrixDimension);
             double determinant = matrix.formaEscalonada(new Matriz(matrixDimension, matrixDimension));
@@ -63,6 +73,18 @@ public class EP1 {
         }
 
         return new MatrixPair(matrix, aggregateMatrix);
+    }
+
+    private static boolean isSingular(Matriz matrix, int matrixDimension) {
+        Matriz copy = new Matriz(matrixDimension, matrixDimension);
+        for (int i = 0; i < matrixDimension; i++) {
+            for (int j = 0; j < matrixDimension; j++) {
+                copy.set(i, j, matrix.get(i, j));
+            }
+        }
+
+        double determinant = copy.formaEscalonada(new Matriz(matrixDimension, matrixDimension));
+        return determinant == 0;
     }
 
     static class MatrixPair {
