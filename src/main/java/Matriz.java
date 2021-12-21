@@ -1,3 +1,6 @@
+import java.util.Formatter;
+import java.util.Locale;
+
 // classe que representa uma matriz de valores do tipo double.
 class Matriz {
 
@@ -242,6 +245,66 @@ class Matriz {
     // a matriz que invoca esta metodo eh uma matriz quadrada. Não se pode assumir, contudo, que esta
     // matriz ja esteja na forma escalonada (mas voce pode usar o metodo acima para isso).
     public void formaEscalonadaReduzida(Matriz agregada){
+        int n = lin;
+        for (int k = 0; k < n; k++) {
+            if (Math.abs(m[k][k]) < SMALL) {
+                for (int i = k + 1; i < n; i++) {
+                    if (Math.abs(m[i][k]) > Math.abs(m[k][k])) {
+                        trocaLinha(k, i);
+                        agregada.trocaLinha(k, i);
+                    }
+                }
+            }
+            double pivot = m[k][k];
+            multiplicaLinha(k, 1 / pivot);
+            agregada.multiplicaLinha(k, 1 / pivot);
 
+            for (int i = 0; i < n; i++) {
+                if (i == k || m[i][k] == 0) continue;
+
+                double factor = m[i][k];
+                for (int j = k; j < n; j++) {
+                    m[i][j] -= factor * m[k][j];
+                }
+                agregada.m[i][0] -= factor * agregada.m[k][0];
+            }
+        }
+
+        StringBuilder solution = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            double v = agregada.m[i][0];
+            if (Double.isNaN(v) || Double.isInfinite(v)) {
+                solution = null;
+                break;
+            }
+
+            for (int j = 0; j < n; j++) {
+                double x = m[i][j];
+                if (!isEqual(x, 1) && !isEqual(x, 0)) {
+                    solution = null;
+                    break;
+                }
+            }
+
+            if (solution == null) {
+                break;
+            }
+
+            Formatter formatter = new Formatter(Locale.ROOT);
+            formatter.format("%7.2f", v);
+            solution.append(formatter.toString().trim()).append("\n");
+        }
+
+        if (solution != null) {
+            System.out.printf(Locale.ROOT, solution.toString());
+        }
+    }
+
+    private boolean isEqual(double a, double b) {
+        if (a > b) {
+            return a - b < SMALL;
+        } else {
+            return b - a < SMALL;
+        }
     }
 }

@@ -14,7 +14,10 @@ public class EP1 {
         int matrixDimension = in.nextInt();	  // le a dimensão da matriz a ser manipulada pela operacao escolhida.
 
         if (operation.equals("resolve")){
-
+            MatrixPair matrixPair = getMatrixAndAggregateMatrix(in, matrixDimension);
+            Matriz matrix = matrixPair.getMatrix();
+            Matriz aggregateMatrix = matrixPair.getAggregateMatrix();
+            matrix.formaEscalonadaReduzida(aggregateMatrix);
         } else if (operation.equals("inverte")){
 
         } else if( operation.equals("determinante")){
@@ -32,9 +35,44 @@ public class EP1 {
         Matriz matrix = new Matriz(matrixDimension, matrixDimension);
         for (int i = 0; i < matrixDimension; i++) {
             for (int j = 0; j < matrixDimension; j++) {
-                matrix.m[i][j] = in.nextInt();
+                matrix.m[i][j] = in.nextDouble();
             }
         }
         return matrix;
+    }
+
+    private static MatrixPair getMatrixAndAggregateMatrix(Scanner in, int matrixDimension) {
+        Matriz matrix = new Matriz(matrixDimension, matrixDimension);
+        Matriz aggregateMatrix = new Matriz(matrixDimension, 1);
+
+        for (int i = 0; i < matrixDimension; i++) {
+            for (int j = 0; j < matrixDimension + 1; j++) {
+                if (j == matrixDimension) {
+                    aggregateMatrix.m[i][0] = in.nextDouble();
+                } else {
+                    matrix.m[i][j] = in.nextDouble();
+                }
+            }
+        }
+
+        return new MatrixPair(matrix, aggregateMatrix);
+    }
+
+    static class MatrixPair {
+        private final Matriz matrix;
+        private final Matriz aggregateMatrix;
+
+        public MatrixPair(Matriz matrix, Matriz aggregateMatrix) {
+            this.matrix = matrix;
+            this.aggregateMatrix = aggregateMatrix;
+        }
+
+        public Matriz getMatrix() {
+            return matrix;
+        }
+
+        public Matriz getAggregateMatrix() {
+            return aggregateMatrix;
+        }
     }
 }
