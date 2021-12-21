@@ -246,9 +246,11 @@ class Matriz {
 
             double pivot = m[k][k];
             multiplicaLinha(k, 1 / pivot);
-            agregada.multiplicaLinha(k, 1 / pivot);
+            if (agregada != null) {
+                agregada.multiplicaLinha(k, 1 / pivot);
+            }
 
-            elimination(agregada,k);
+            elimination(agregada, k);
         }
     }
 
@@ -257,7 +259,9 @@ class Matriz {
         while (i < lin) {
             if (Math.abs(m[i][k]) > Math.abs(m[k][k])) {
                 trocaLinha(k, i);
-                agregada.trocaLinha(k, i);
+                if (agregada != null) {
+                    agregada.trocaLinha(k, i);
+                }
             }
             i++;
         }
@@ -268,12 +272,19 @@ class Matriz {
             if (i == k || m[i][k] == 0) continue;
 
             double factor = m[i][k];
-            int j = k;
-            while (j < lin) {
+            int j = 0;
+            while (j < col) {
                 m[i][j] -= factor * m[k][j];
                 j++;
             }
-            agregada.m[i][0] -= factor * agregada.m[k][0];
+
+            if (agregada != null) {
+                j = 0;
+                while (j < agregada.col) {
+                    agregada.m[i][j] -= factor * agregada.m[k][j];
+                    j++;
+                }
+            }
         }
     }
 
