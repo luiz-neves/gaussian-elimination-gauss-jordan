@@ -1,3 +1,8 @@
+/*
+ * JOÃO VÍCTOR FERREIRA ARAUJO - 10856758
+ * ISABELLE NEVES PORTO - 10687684
+ */
+
 import java.util.Formatter;
 import java.util.Locale;
 
