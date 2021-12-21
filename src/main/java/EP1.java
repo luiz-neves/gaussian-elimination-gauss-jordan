@@ -39,7 +39,7 @@ public class EP1 {
             }
         } else if( operation.equals("determinante")){
             Matriz matrix = getMatrix(in, matrixDimension);
-            double determinant = matrix.formaEscalonada(new Matriz(matrixDimension, matrixDimension));
+            double determinant = matrix.formaEscalonada(null);
             System.out.printf(Locale.ROOT, "%7.2f%n", determinant);
         } else {
             System.out.println("Operação desconhecida!");
@@ -83,7 +83,7 @@ public class EP1 {
             }
         }
 
-        double determinant = copy.formaEscalonada(new Matriz(matrixDimension, matrixDimension));
+        double determinant = copy.formaEscalonada(null);
         return determinant == 0;
     }
 

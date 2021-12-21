@@ -158,11 +158,16 @@ class Matriz {
             for(int i = currentLine + 1; i < this.lin; i++){
                 double constant = m[i][pivoColunm]/pivo;
                 combinaLinhas(i, currentLine, -constant);
-                agregada.combinaLinhas(i, currentLine, -constant);
+                if (agregada != null) {
+                    agregada.combinaLinhas(i, currentLine, -constant);
+                }
             }
 
             multiplicaLinha(currentLine, 1.0/pivo);
-            agregada.multiplicaLinha(currentLine, 1.0/pivo);
+
+            if (agregada != null) {
+                agregada.multiplicaLinha(currentLine, 1.0/pivo);
+            }
             determinante = determinante * pivo;
 
             currentLine = currentLine + 1;
