@@ -42,7 +42,7 @@ public class EP1 {
         Matriz matrix = new Matriz(matrixDimension, matrixDimension);
         for (int i = 0; i < matrixDimension; i++) {
             for (int j = 0; j < matrixDimension; j++) {
-                matrix.m[i][j] = in.nextDouble();
+                matrix.set(i, j, in.nextDouble());
             }
         }
         return matrix;
@@ -55,9 +55,9 @@ public class EP1 {
         for (int i = 0; i < matrixDimension; i++) {
             for (int j = 0; j < matrixDimension + 1; j++) {
                 if (j == matrixDimension) {
-                    aggregateMatrix.m[i][0] = in.nextDouble();
+                    aggregateMatrix.set(i, 0, in.nextDouble());
                 } else {
-                    matrix.m[i][j] = in.nextDouble();
+                    matrix.set(i, j, in.nextDouble());
                 }
             }
         }

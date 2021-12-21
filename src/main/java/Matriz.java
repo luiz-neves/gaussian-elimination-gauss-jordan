@@ -17,7 +17,7 @@ class Matriz {
 
     private final int lin;
     private final int col;
-    public double [][] m;
+    private double [][] m;
 
     // metodo estatico que cria uma matriz identidade de tamanho matrixDimension x matrixDimension.
     public static Matriz identidade(int matrixDimension) {
@@ -47,7 +47,7 @@ class Matriz {
     public void imprime() {
         for (int i = 0; i < lin; i++) {
             for (int j = 0; j < col; j++) {
-                System.out.printf("%7.2f ", m[i][j]);
+                System.out.printf(Locale.ROOT, "%7.2f ", m[i][j]);
             }
             System.out.println();
         }
