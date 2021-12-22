@@ -308,9 +308,9 @@ class Matriz {
             for (int i = 0; i < lin; i++) {
                 if (validaLinhaNula(i, true)) {
                     if (isNotEqual(agregada.m[i][0], 0)) {
-                        solution.append("sistema sem solução");
+                        solution.append("sistema sem solução\n");
                     } else {
-                        solution.append("sistema possui diversas soluções");
+                        solution.append("sistema possui diversas soluções\n");
                     }
                 }
             }

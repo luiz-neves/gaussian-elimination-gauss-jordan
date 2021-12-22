@@ -154,7 +154,7 @@ class Test : FreeSpec() {
 
         EP1.main(emptyArray())
 
-        newSystemOutContent.toString().trim() shouldBe testCaseData.second.trim()
+        newSystemOutContent.toString() shouldBe testCaseData.second
     }
 
     private fun getTestCaseData(file: String): Pair<String, String> {

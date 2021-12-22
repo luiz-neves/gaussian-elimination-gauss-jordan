@@ -5,8 +5,6 @@
 
 // Classe "executavel".
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Locale;
 import java.util.Scanner;
 
@@ -40,14 +38,13 @@ public class EP1 {
         } else if( operation.equals("determinante")){
             Matriz matrix = getMatrix(in, matrixDimension);
             double determinant = matrix.formaEscalonada(null);
-            System.out.printf(Locale.ROOT, "%7.2f%n", determinant);
+            System.out.printf(Locale.ROOT, "%.2f%n", determinant);
         } else {
             System.out.println("Operação desconhecida!");
             System.exit(1);
         }
     }
 
-    @NotNull
     private static Matriz getMatrix(Scanner in, int matrixDimension) {
         Matriz matrix = new Matriz(matrixDimension, matrixDimension);
         for (int i = 0; i < matrixDimension; i++) {
