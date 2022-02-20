@@ -1,4 +1,8 @@
+## Eliminação Gaussiana e Eliminação de Gauss-Jordan
+
 Esse repositório é referente ao primeiro trabalho de avaliação da turma de Matrizes, Vetores e Geometria Analítica ministrada pelo professor Flávio Luiz Coutinho, no 2° semestre de 2021 na Escola de Artes, Ciências e Humanidades da Universidade de São Paulo (EACH USP).
+
+O objetivo desse trabalho é implementar os dois processos de eliminação, além das funcionalidades a respeito (resolução de sistemas lineares, inversão de matrizes e cálculo de determinante).
 
 O "esqueleto" do código foi fornecido pelo professor da disciplina, e seu conteúdo original pode ser encontrado no arquivo `esqueleto.txt`.
 
